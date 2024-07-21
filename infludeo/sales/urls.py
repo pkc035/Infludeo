@@ -1,5 +1,5 @@
-from django.urls import path
-from .views import SaleListView, SaleDetailView, SaleCreateView
+from django.urls    import path
+from .views         import SaleListView, SaleDetailView, SaleCreateView
 
 urlpatterns = [
     path('', SaleListView.as_view(), name='sale-list'),

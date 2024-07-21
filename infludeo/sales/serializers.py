@@ -1,13 +1,14 @@
-from rest_framework import serializers
-from .models import Sale
-from cards.serializers import PhotoCardSerializer
+from rest_framework     import serializers
+from decimal            import Decimal
+from .models            import Sale
+from cards.serializers  import PhotoCardSerializer
 
 class SaleListSerializer(serializers.ModelSerializer):
     photo_card = PhotoCardSerializer()
 
     class Meta:
         model = Sale
-        fields = ['id', 'photo_card', 'price']
+        fields = '__all__'
 
 class SaleDetailSerializer(serializers.ModelSerializer):
     photo_card = PhotoCardSerializer()
@@ -18,13 +19,19 @@ class SaleDetailSerializer(serializers.ModelSerializer):
         fields = ['id', 'photo_card', 'price', 'fee', 'total_price']
 
     def get_total_price(self, obj):
-        return obj.price + obj.fee
+        return int(obj.price + obj.fee)
 
 class SaleCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Sale
-        fields = ['photo_card', 'price', 'seller']
+        fields = ['photo_card', 'price']
 
     def validate(self, attrs):
-        attrs['fee'] = attrs['price'] * 0.1
+        attrs['fee'] = attrs['price'] * Decimal('0.1')
         return attrs
+
+    def create(self, validated_data):
+        request = self.context.get('request', None)
+        if request:
+            validated_data['seller'] = request.user
+        return super().create(validated_data)

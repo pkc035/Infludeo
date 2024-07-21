@@ -1,6 +1,6 @@
-from django.db import models
+from django.db              import models
 from django.contrib.auth    import get_user_model
-from cards.models import PhotoCard
+from cards.models           import PhotoCard
 
 User = get_user_model()
 
