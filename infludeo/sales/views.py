@@ -23,6 +23,10 @@ class SaleListView(generics.ListAPIView):
         중복된 포토카드 ID가 있는 경우, 가격이 가장 낮은 판매 항목만을 선택하며,
         가격이 동일할 경우 수정 날짜가 가장 이른 항목을 선택.
 
+        사용할 DB가 정해지지 않아 기본적으로 사용할 DB는 SQLite로 선정하였고,
+        SQLite는 distinct 기능을 지원하지 않아 모든 데이터베이스에서 일관성 있게
+        동작하도록 코드에서 비교하도록 구현 함.
+
         Returns:
             list: 필터링된 Sale 모델 인스턴스의 list
         """
