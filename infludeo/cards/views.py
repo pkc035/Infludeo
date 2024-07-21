@@ -6,4 +6,3 @@ from .serializers               import PhotoCardSerializer
 class PhotoCardViewSet(viewsets.ModelViewSet):
     queryset = PhotoCard.objects.all()
     serializer_class = PhotoCardSerializer
-    permission_classes = [IsAuthenticated]
